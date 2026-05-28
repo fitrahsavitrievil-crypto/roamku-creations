@@ -358,14 +358,18 @@ function Index() {
               <button className="rounded-md bg-white/5 p-1.5">
                 <BarChart3 className="h-3.5 w-3.5" />
               </button>
-              <div className="ml-1 font-display text-6xl font-bold leading-none">
-                22<span className="text-2xl text-white/70">.400</span>
+              <div className="ml-1 font-display text-5xl font-bold leading-none sm:text-6xl">
+                {Math.floor(unitPrice / 1000).toLocaleString("id-ID")}
+                <span className="text-2xl text-white/70">
+                  .{String(unitPrice % 1000).padStart(3, "0")}
+                </span>
               </div>
             </div>
             <div className="mt-2 flex items-center justify-between text-xs text-white/60">
-              <span>1 eSIM</span>
-              <span>1 × Rp 22.400</span>
+              <span>{qty} eSIM</span>
+              <span>{qty} × Rp {unitPrice.toLocaleString("id-ID")}</span>
             </div>
+
 
             <div className="mt-4 flex flex-wrap gap-2 font-mono text-[10px]">
               {[mode === "unlimited" ? "UNLIMITED" : dataPlans[dataIdx], `${mode === "unlimited" ? unlimitedDays[unlimitedDayIdx] : durations[durIdx]} HARI`, mode === "fixed" ? "TETAP" : "500MB/HARI", "1 ESIM"].map(
