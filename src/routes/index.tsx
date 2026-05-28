@@ -65,6 +65,31 @@ function Index() {
   const [qty, setQty] = useState(1);
 
   const selectedCountry = countries.find((c) => c.code === country)!;
+  const navigate = useNavigate();
+
+  // Simple deterministic price model (IDR).
+  const days = mode === "unlimited" ? unlimitedDays[unlimitedDayIdx] : parseInt(durations[durIdx]);
+  const baseFixed = [12000, 18000, 22400, 32000, 55000, 95000, 180000][dataIdx];
+  const unitPrice =
+    mode === "unlimited"
+      ? Math.round(15000 + days * 4500)
+      : Math.round(baseFixed * (1 + Math.log2(Math.max(1, days / 7)) * 0.2));
+  const total = unitPrice * qty;
+
+  function checkout() {
+    saveOrder({
+      country: selectedCountry.name,
+      countryFlag: selectedCountry.flag,
+      mode,
+      data: dataPlans[dataIdx],
+      days: String(days),
+      qty,
+      unitPrice,
+      total,
+    });
+    navigate({ to: "/checkout" });
+  }
+
 
   return (
     <div className="min-h-screen bg-background text-foreground">
