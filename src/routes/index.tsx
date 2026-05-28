@@ -342,7 +342,7 @@ function Index() {
             </div>
 
             <div className="mt-4 flex flex-wrap gap-2 font-mono text-[10px]">
-              {[dataPlans[dataIdx], `${durations[durIdx]} HARI`, mode === "fixed" ? "TETAP" : "UNLIMITED", "1 ESIM"].map(
+              {[mode === "unlimited" ? "UNLIMITED" : dataPlans[dataIdx], `${mode === "unlimited" ? unlimitedDays[unlimitedDayIdx] : durations[durIdx]} HARI`, mode === "fixed" ? "TETAP" : "500MB/HARI", "1 ESIM"].map(
                 (t) => (
                   <span
                     key={t}
