@@ -87,7 +87,7 @@ function Index() {
       </header>
 
       {/* Hero */}
-      <section className="mx-auto max-w-7xl px-6 pt-6 pb-10">
+      <section className="mx-auto max-w-7xl px-6 pt-6 pb-0">
         <div className="grid items-start gap-8 lg:grid-cols-2">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium tracking-wide text-muted-foreground shadow-sm">
@@ -113,16 +113,16 @@ function Index() {
           <div className="relative flex justify-center lg:justify-end">
             <img
               src={mascot}
-              alt="Maskot RoamKU — komodo ramah pemandu data"
+              alt="Maskot RoamKU — komodo lucu pemandu data"
               width={1024}
-              height={1024}
-              className="h-auto w-[min(520px,90%)] drop-shadow-[0_30px_40px_rgba(0,0,0,0.18)]"
+              height={1280}
+              className="h-auto w-[min(520px,90%)] translate-y-6 drop-shadow-[0_30px_40px_rgba(0,0,0,0.18)] lg:translate-y-10"
             />
           </div>
         </div>
 
         {/* Builder */}
-        <div id="builder" className="mt-2 grid gap-5 lg:grid-cols-2">
+        <div id="builder" className="-mt-10 grid gap-5 lg:-mt-16 lg:grid-cols-2">
           {/* Left config card */}
           <div className="rounded-3xl border border-border bg-card p-6 shadow-sm sm:p-8">
             <Step n={1} label="MAU KE MANA?" />
