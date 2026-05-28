@@ -14,8 +14,9 @@ import {
   BarChart3,
   Check,
   ChevronDown,
+  Info,
 } from "lucide-react";
-import mascot from "@/assets/mascot_v3.png";
+import mascot from "@/assets/mascot_v4.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -52,11 +53,13 @@ const countries = [
 
 const dataPlans = ["500 MB", "1 GB", "3 GB", "5 GB", "10 GB", "20 GB", "50 GB"];
 const durations = ["7", "15", "30", "180"];
+const unlimitedDays = [1, 3, 7, 10, 15, 20, 30];
 
 function Index() {
   const [country, setCountry] = useState("JP");
   const [dataIdx, setDataIdx] = useState(2);
   const [durIdx, setDurIdx] = useState(0);
+  const [unlimitedDayIdx, setUnlimitedDayIdx] = useState(2);
   const [mode, setMode] = useState<"fixed" | "unlimited">("fixed");
   const [qty, setQty] = useState(1);
 
@@ -113,7 +116,7 @@ function Index() {
           <div className="relative flex justify-center lg:justify-end">
             <img
               src={mascot}
-              alt="Maskot RoamKU — komodo lucu pemandu data"
+              alt="Maskot RoamKU — traveler ramah pemandu data"
               width={1024}
               height={1280}
               className="h-auto w-[min(520px,90%)] translate-y-6 drop-shadow-[0_30px_40px_rgba(0,0,0,0.18)] lg:translate-y-10"
