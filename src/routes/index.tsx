@@ -14,8 +14,9 @@ import {
   BarChart3,
   Check,
   ChevronDown,
+  Info,
 } from "lucide-react";
-import mascot from "@/assets/mascot_v3.png";
+import mascot from "@/assets/mascot_v4.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -52,11 +53,13 @@ const countries = [
 
 const dataPlans = ["500 MB", "1 GB", "3 GB", "5 GB", "10 GB", "20 GB", "50 GB"];
 const durations = ["7", "15", "30", "180"];
+const unlimitedDays = [1, 3, 7, 10, 15, 20, 30];
 
 function Index() {
   const [country, setCountry] = useState("JP");
   const [dataIdx, setDataIdx] = useState(2);
   const [durIdx, setDurIdx] = useState(0);
+  const [unlimitedDayIdx, setUnlimitedDayIdx] = useState(2);
   const [mode, setMode] = useState<"fixed" | "unlimited">("fixed");
   const [qty, setQty] = useState(1);
 
@@ -113,7 +116,7 @@ function Index() {
           <div className="relative flex justify-center lg:justify-end">
             <img
               src={mascot}
-              alt="Maskot RoamKU — komodo lucu pemandu data"
+              alt="Maskot RoamKU — traveler ramah pemandu data"
               width={1024}
               height={1280}
               className="h-auto w-[min(520px,90%)] translate-y-6 drop-shadow-[0_30px_40px_rgba(0,0,0,0.18)] lg:translate-y-10"
@@ -188,67 +191,114 @@ function Index() {
                 </button>
               </div>
             </div>
-            <div className="mt-4 grid grid-cols-4 gap-2">
-              {dataPlans.map((p, i) => {
-                const active = i === dataIdx;
-                const [num, unit] = p.split(" ");
-                return (
-                  <button
-                    key={p}
-                    onClick={() => setDataIdx(i)}
-                    className={`rounded-xl border px-3 py-4 text-center transition ${
-                      active
-                        ? "border-foreground bg-card shadow-sm"
-                        : "border-transparent bg-muted hover:bg-accent"
-                    }`}
-                  >
-                    <div className="font-display text-2xl font-semibold leading-none">
-                      {num}
-                    </div>
-                    <div className="mt-1 text-[10px] tracking-wider text-muted-foreground">
-                      {unit}
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-            <button className="mt-3 flex w-full items-center justify-between rounded-xl bg-muted px-4 py-2.5 text-xs text-muted-foreground hover:bg-accent">
-              Tampilkan paket lebih kecil <ChevronDown className="h-3.5 w-3.5" />
-            </button>
+            {mode === "fixed" ? (
+              <>
+                <div className="mt-4 grid grid-cols-4 gap-2">
+                  {dataPlans.map((p, i) => {
+                    const active = i === dataIdx;
+                    const [num, unit] = p.split(" ");
+                    return (
+                      <button
+                        key={p}
+                        onClick={() => setDataIdx(i)}
+                        className={`rounded-xl border px-3 py-4 text-center transition ${
+                          active
+                            ? "border-foreground bg-card shadow-sm"
+                            : "border-transparent bg-muted hover:bg-accent"
+                        }`}
+                      >
+                        <div className="font-display text-2xl font-semibold leading-none">
+                          {num}
+                        </div>
+                        <div className="mt-1 text-[10px] tracking-wider text-muted-foreground">
+                          {unit}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+                <button className="mt-3 flex w-full items-center justify-between rounded-xl bg-muted px-4 py-2.5 text-xs text-muted-foreground hover:bg-accent">
+                  Tampilkan paket lebih kecil <ChevronDown className="h-3.5 w-3.5" />
+                </button>
+              </>
+            ) : (
+              <div className="mt-4 flex items-start gap-3 rounded-2xl bg-muted/70 p-4">
+                <Info className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
+                <div className="flex-1">
+                  <div className="text-sm font-semibold">Kuota harian transparan</div>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Default 500 MB/hari supaya kamu lihat harga unlimited
+                    <span className="text-brand"> termurah</span> dulu.
+                  </p>
+                </div>
+                <button className="flex items-center gap-1 rounded-lg bg-card px-2.5 py-1.5 text-xs font-medium shadow-sm">
+                  500 MB/hari <ChevronDown className="h-3 w-3" />
+                </button>
+              </div>
+            )}
 
             <div className="my-6 h-px bg-border" />
 
             <Step n={3} label="BERAPA LAMA?" />
-            <div className="mt-4 flex items-baseline gap-2">
-              <span className="font-display text-5xl font-bold">{durations[durIdx]}</span>
-              <span className="text-sm text-muted-foreground">hari</span>
-              <span className="ml-auto text-xs text-muted-foreground">
-                pilih masa aktif
-              </span>
-            </div>
-            <div className="mt-4 grid grid-cols-4 gap-2">
-              {durations.map((d, i) => {
-                const active = i === durIdx;
-                return (
-                  <button
-                    key={d}
-                    onClick={() => setDurIdx(i)}
-                    className={`rounded-xl border px-3 py-4 text-center transition ${
-                      active
-                        ? "border-foreground bg-card shadow-sm"
-                        : "border-transparent bg-muted hover:bg-accent"
-                    }`}
-                  >
-                    <div className="font-display text-xl font-semibold leading-none">
-                      {d}
-                    </div>
-                    <div className="mt-1 text-[10px] tracking-wider text-muted-foreground">
-                      HARI
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
+            {mode === "fixed" ? (
+              <>
+                <div className="mt-4 flex items-baseline gap-2">
+                  <span className="font-display text-5xl font-bold">{durations[durIdx]}</span>
+                  <span className="text-sm text-muted-foreground">hari</span>
+                  <span className="ml-auto text-xs text-muted-foreground">
+                    pilih masa aktif
+                  </span>
+                </div>
+                <div className="mt-4 grid grid-cols-4 gap-2">
+                  {durations.map((d, i) => {
+                    const active = i === durIdx;
+                    return (
+                      <button
+                        key={d}
+                        onClick={() => setDurIdx(i)}
+                        className={`rounded-xl border px-3 py-4 text-center transition ${
+                          active
+                            ? "border-foreground bg-card shadow-sm"
+                            : "border-transparent bg-muted hover:bg-accent"
+                        }`}
+                      >
+                        <div className="font-display text-xl font-semibold leading-none">
+                          {d}
+                        </div>
+                        <div className="mt-1 text-[10px] tracking-wider text-muted-foreground">
+                          HARI
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="mt-4 flex items-baseline gap-2">
+                  <span className="font-display text-6xl font-bold leading-none">
+                    {unlimitedDays[unlimitedDayIdx]}
+                  </span>
+                  <span className="text-sm text-muted-foreground">hari</span>
+                  <span className="ml-auto text-xs text-brand">aktif sejak digunakan</span>
+                </div>
+                <div className="mt-6 px-1">
+                  <input
+                    type="range"
+                    min={0}
+                    max={unlimitedDays.length - 1}
+                    value={unlimitedDayIdx}
+                    onChange={(e) => setUnlimitedDayIdx(parseInt(e.target.value))}
+                    className="w-full accent-foreground"
+                  />
+                  <div className="mt-2 flex justify-between text-[10px] text-muted-foreground">
+                    {unlimitedDays.map((d) => (
+                      <span key={d}>{d}h</span>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Right product/dark card */}
@@ -292,7 +342,7 @@ function Index() {
             </div>
 
             <div className="mt-4 flex flex-wrap gap-2 font-mono text-[10px]">
-              {[dataPlans[dataIdx], `${durations[durIdx]} HARI`, mode === "fixed" ? "TETAP" : "UNLIMITED", "1 ESIM"].map(
+              {[mode === "unlimited" ? "UNLIMITED" : dataPlans[dataIdx], `${mode === "unlimited" ? unlimitedDays[unlimitedDayIdx] : durations[durIdx]} HARI`, mode === "fixed" ? "TETAP" : "500MB/HARI", "1 ESIM"].map(
                 (t) => (
                   <span
                     key={t}
