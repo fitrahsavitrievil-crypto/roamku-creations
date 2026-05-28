@@ -475,10 +475,16 @@ function Index() {
                   <Plus className="h-3.5 w-3.5" />
                 </button>
               </div>
-              <button className="flex flex-1 items-center justify-center gap-2 rounded-full bg-white/10 px-4 py-3 text-sm font-medium hover:bg-white/15">
+              <button
+                onClick={checkout}
+                className="flex flex-1 items-center justify-center gap-2 rounded-full bg-white/10 px-4 py-3 text-sm font-medium hover:bg-white/15"
+              >
                 <ShoppingCart className="h-4 w-4" /> Tambah ke keranjang
               </button>
-              <button className="flex flex-1 items-center justify-center gap-2 rounded-full bg-brand px-4 py-3 text-sm font-semibold text-brand-foreground hover:opacity-90">
+              <button
+                onClick={checkout}
+                className="flex flex-1 items-center justify-center gap-2 rounded-full bg-brand px-4 py-3 text-sm font-semibold text-brand-foreground hover:opacity-90"
+              >
                 Beli sekarang <ArrowRight className="h-4 w-4" />
               </button>
             </div>
