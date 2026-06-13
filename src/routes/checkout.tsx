@@ -1,7 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowLeft, ArrowRight, Mail, User } from "lucide-react";
+import { ArrowRight, Mail, User, ShieldCheck, Clock3, Sparkles } from "lucide-react";
 import { loadOrder, saveBuyer, loadBuyer, formatIDR, type Order } from "@/lib/order";
+import { FlowHeader } from "@/components/flow-header";
+import mascot from "@/assets/mascot_v4.png";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
@@ -52,35 +54,27 @@ function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-brand text-brand-foreground font-display font-bold">
-            R
-          </div>
-          <span className="font-display text-lg font-bold tracking-tight">RoamKU</span>
-        </Link>
-        <Link to="/" className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
-          <ArrowLeft className="h-4 w-4" /> Kembali
-        </Link>
-      </header>
+      <FlowHeader step={1} backTo="/" backLabel="Ubah paket" />
 
-      <main className="mx-auto grid max-w-5xl gap-6 px-6 pb-16 lg:grid-cols-[1fr_360px]">
-        <section className="rounded-3xl border border-border bg-card p-6 shadow-sm sm:p-8">
-          <div className="text-xs uppercase tracking-wider text-muted-foreground">Langkah 1 dari 3</div>
-          <h1 className="mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl">
-            Ke mana eSIM-nya dikirim?
-          </h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            QR code aktivasi akan dikirim ke email kamu seketika setelah pembayaran berhasil.
-          </p>
+      <main className="mx-auto grid max-w-6xl gap-6 px-6 py-10 lg:grid-cols-[1fr_380px]">
+        <section className="relative overflow-hidden rounded-[28px] border border-border bg-card p-6 shadow-sm sm:p-10">
+          {/* decorative blob */}
+          <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-brand/10 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-32 -left-20 h-56 w-56 rounded-full bg-ink/5 blur-3xl" />
 
-          <form onSubmit={submit} className="mt-8 space-y-5">
-            <div>
-              <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                Nama lengkap
-              </label>
-              <div className="mt-2 flex items-center gap-2 rounded-2xl bg-muted px-4 py-3 focus-within:ring-2 focus-within:ring-foreground/20">
-                <User className="h-4 w-4 text-muted-foreground" />
+          <div className="relative">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-brand/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-brand">
+              <Sparkles className="h-3 w-3" /> Hampir jadi
+            </span>
+            <h1 className="mt-3 font-display text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl">
+              Ke mana eSIM-nya<br />kita kirim?
+            </h1>
+            <p className="mt-3 max-w-md text-sm text-muted-foreground">
+              QR aktivasi sampai ke inbox kamu dalam &lt; 30 detik setelah pembayaran berhasil.
+            </p>
+
+            <form onSubmit={submit} className="mt-8 max-w-md space-y-5">
+              <FieldShell label="Nama lengkap" error={errors.name} icon={<User className="h-4 w-4" />}>
                 <input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -88,16 +82,9 @@ function CheckoutPage() {
                   placeholder="Budi Santoso"
                   className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                 />
-              </div>
-              {errors.name && <p className="mt-1 text-xs text-brand">{errors.name}</p>}
-            </div>
+              </FieldShell>
 
-            <div>
-              <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                Alamat email
-              </label>
-              <div className="mt-2 flex items-center gap-2 rounded-2xl bg-muted px-4 py-3 focus-within:ring-2 focus-within:ring-foreground/20">
-                <Mail className="h-4 w-4 text-muted-foreground" />
+              <FieldShell label="Alamat email" error={errors.email} icon={<Mail className="h-4 w-4" />}>
                 <input
                   type="email"
                   value={email}
@@ -106,20 +93,31 @@ function CheckoutPage() {
                   placeholder="kamu@email.com"
                   className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                 />
-              </div>
-              {errors.email && <p className="mt-1 text-xs text-brand">{errors.email}</p>}
-            </div>
+              </FieldShell>
 
-            <button
-              type="submit"
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-brand px-4 py-3.5 text-sm font-semibold text-brand-foreground hover:opacity-90"
-            >
-              Lanjut ke pembayaran <ArrowRight className="h-4 w-4" />
-            </button>
-            <p className="text-center text-xs text-muted-foreground">
-              Dengan melanjutkan kamu setuju dengan Ketentuan & Kebijakan Privasi RoamKU.
-            </p>
-          </form>
+              <button
+                type="submit"
+                className="group flex w-full items-center justify-center gap-2 rounded-full bg-ink px-5 py-4 text-sm font-semibold text-ink-foreground shadow-lg shadow-ink/20 transition hover:translate-y-[-1px] hover:shadow-xl"
+              >
+                Lanjut ke pembayaran
+                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+              </button>
+
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] text-muted-foreground">
+                <span className="inline-flex items-center gap-1"><ShieldCheck className="h-3 w-3 text-success" /> Data terenkripsi</span>
+                <span className="inline-flex items-center gap-1"><Clock3 className="h-3 w-3 text-success" /> Pengiriman instan</span>
+                <span className="inline-flex items-center gap-1"><Mail className="h-3 w-3 text-success" /> Tanpa spam</span>
+              </div>
+            </form>
+          </div>
+
+          {/* mascot peek bottom-right */}
+          <img
+            src={mascot}
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-6 right-2 hidden h-44 w-44 select-none object-contain opacity-90 md:block lg:h-56 lg:w-56"
+          />
         </section>
 
         <OrderSummary order={order} />
@@ -128,33 +126,83 @@ function CheckoutPage() {
   );
 }
 
+function FieldShell({
+  label,
+  error,
+  icon,
+  children,
+}: {
+  label: string;
+  error?: string;
+  icon: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <label className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+        {label}
+      </label>
+      <div
+        className={[
+          "mt-2 flex items-center gap-2.5 rounded-2xl border bg-card px-4 py-3.5 transition",
+          error
+            ? "border-brand/50 ring-2 ring-brand/15"
+            : "border-border focus-within:border-ink focus-within:ring-2 focus-within:ring-ink/10",
+        ].join(" ")}
+      >
+        <span className="text-muted-foreground">{icon}</span>
+        {children}
+      </div>
+      {error && <p className="mt-1.5 text-xs font-medium text-brand">{error}</p>}
+    </div>
+  );
+}
+
 export function OrderSummary({ order }: { order: Order }) {
   return (
-    <aside className="h-fit rounded-3xl bg-ink p-6 text-ink-foreground shadow-xl">
-      <div className="text-xs uppercase tracking-wider text-white/60">Ringkasan pesanan</div>
-      <div className="mt-3 flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-xl">
-          {order.countryFlag}
+    <aside className="relative h-fit overflow-hidden rounded-[28px] bg-ink p-7 text-ink-foreground shadow-2xl shadow-ink/30">
+      <div className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-brand/30 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-24 -left-16 h-40 w-40 rounded-full bg-white/5 blur-3xl" />
+
+      <div className="relative">
+        <div className="flex items-center justify-between">
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-white/60">
+            Ringkasan pesanan
+          </span>
+          <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] uppercase tracking-wider text-white/70">
+            eSIM
+          </span>
         </div>
-        <div>
-          <div className="font-semibold">{order.country}</div>
-          <div className="text-xs text-white/60">
-            {order.mode === "unlimited" ? "Unlimited · 500 MB/hari" : order.data + " tetap"} · {order.days} hari
+
+        <div className="mt-5 flex items-center gap-3 rounded-2xl bg-white/5 p-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-2xl">
+            {order.countryFlag}
+          </div>
+          <div>
+            <div className="font-display text-lg font-bold leading-tight">{order.country}</div>
+            <div className="text-xs text-white/60">
+              {order.mode === "unlimited" ? "Unlimited · 500 MB/hari" : order.data + " tetap"} · {order.days} hari
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="mt-5 space-y-2 text-sm">
-        <Row k="Paket" v={order.mode === "unlimited" ? "Unlimited" : order.data} />
-        <Row k="Durasi" v={`${order.days} hari`} />
-        <Row k="Jumlah eSIM" v={`${order.qty}×`} />
-        <Row k="Harga satuan" v={formatIDR(order.unitPrice)} />
-      </div>
+        <div className="mt-5 space-y-2.5 text-sm">
+          <Row k="Paket" v={order.mode === "unlimited" ? "Unlimited" : order.data} />
+          <Row k="Durasi" v={`${order.days} hari`} />
+          <Row k="Jumlah eSIM" v={`${order.qty}×`} />
+          <Row k="Harga satuan" v={formatIDR(order.unitPrice)} />
+        </div>
 
-      <div className="mt-5 border-t border-white/10 pt-4">
-        <div className="flex items-baseline justify-between">
-          <span className="text-xs uppercase tracking-wider text-white/60">Total</span>
-          <span className="font-display text-3xl font-bold">{formatIDR(order.total)}</span>
+        <div className="mt-6 rounded-2xl bg-gradient-to-br from-brand to-brand/70 p-4">
+          <div className="flex items-baseline justify-between">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-white/80">
+              Total bayar
+            </span>
+            <span className="font-display text-3xl font-extrabold text-white">
+              {formatIDR(order.total)}
+            </span>
+          </div>
+          <div className="mt-1 text-[10px] text-white/70">Sudah termasuk PPN & biaya layanan</div>
         </div>
       </div>
     </aside>
@@ -164,7 +212,7 @@ export function OrderSummary({ order }: { order: Order }) {
 function Row({ k, v }: { k: string; v: string }) {
   return (
     <div className="flex items-center justify-between text-white/80">
-      <span className="text-white/60">{k}</span>
+      <span className="text-white/55">{k}</span>
       <span className="font-medium text-white">{v}</span>
     </div>
   );
