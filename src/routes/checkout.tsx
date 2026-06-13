@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ArrowRight, Mail, User, ShieldCheck, Clock3, Sparkles } from "lucide-react";
 import { loadOrder, saveBuyer, loadBuyer, formatIDR, type Order } from "@/lib/order";
 import { FlowHeader } from "@/components/flow-header";
-import mascot from "@/assets/mascot_v4.png";
+import mascot from "@/assets/mascot_checkout.png";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({

@@ -21,7 +21,7 @@ import {
   type Esim,
 } from "@/lib/order";
 import { FlowHeader } from "@/components/flow-header";
-import mascot from "@/assets/mascot_v4.png";
+import mascot from "@/assets/mascot_success.png";
 
 export const Route = createFileRoute("/esim")({
   head: () => ({

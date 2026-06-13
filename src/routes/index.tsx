@@ -17,7 +17,7 @@ import {
   ChevronDown,
   Info,
 } from "lucide-react";
-import mascot from "@/assets/mascot_v4.png";
+import mascot from "@/assets/mascot_hero.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
